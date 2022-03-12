@@ -9,7 +9,7 @@ typedef struct _node
     char * firstname;
     char * lastname;
     char * middlename;
-    char course[4];
+    char course[5];
     int year;
     char * email_add;
     char * mobile_num;
@@ -42,26 +42,37 @@ linlst_studinfo * create_linkedlist_studinfo()
 
 void addnode_studinfo_start(linlst_studinfo * headptr, node * new_node)
 {
-    clock_t begin = clock();
-    
     new_node->next = headptr->next;
     headptr->next = new_node;
     headptr->size++;
-
-    clock_t end = clock();
-
-    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    // clock_t begin = clock();
     
-    printf("Added node at %lfms\n", time_spent/1000);
+
+    // clock_t end = clock();
+
+    // double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    
+    // printf("Added node at %lfms\n", time_spent/1000);
+}
+
+void print_node(node * will_printnode)
+{
+    printf("Student Id: %d\n", will_printnode->student_id);
+    printf("Fullname: %s, %s, %s\n", will_printnode->lastname, will_printnode->firstname, will_printnode->middlename);
+    printf("Course and Year: %s - %d\n", will_printnode->course, will_printnode->year);
+    printf("Email: %s\n", will_printnode->email_add);
+    printf("Mobile Number: %s\n", will_printnode->mobile_num);
 }
 
 void print_allnodes(node * head_node)
 {
     if(head_node != NULL)
     {
-        printf("%d. %s\n", head_node->student_id, head_node->firstname);
+        print_node(head_node);
         print_allnodes(head_node->next);
     }
+    else
+        printf("\n");
 }
 
 void addnodes_from_csv(linlst_studinfo * headptr)
@@ -142,7 +153,7 @@ int main(int argc, char const *argv[])
 
     clock_t end = clock();
 
-    printf("Time spent adding nodes at linked list: %lf \n", (double)(end - begin) / (CLOCKS_PER_SEC / 1000));    
+    printf("Time spent adding nodes at linked list: %.3lfms\n", (double)(end - begin) / (CLOCKS_PER_SEC / 1000));    
     print_allnodes(headptr->next);
     printf("size of linked list: %d\n", headptr->size);
     
