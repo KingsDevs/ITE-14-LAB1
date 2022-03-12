@@ -3,6 +3,9 @@
 #include<string.h>
 #include<time.h>
 
+#define CLOCKS_PER_MILIS (CLOCKS_PER_SEC / 1000)
+#define MAX 2000
+
 typedef struct _node
 {
     int student_id;
@@ -160,20 +163,34 @@ int main(int argc, char const *argv[])
 
     linlst_studinfo * headptr = create_linkedlist_studinfo();
     addnodes_from_csv(headptr);
-    for(int i = 0; i < 10000; i++)
+
+    double time_spent = 0.0;
+
+    for(int i = 0; i < MAX; i++)
     {
-        clock_t begin = clock();    
         
+        clock_t begin = clock();
+
         node * new_node = create_node();
         add_node_end(headptr, headptr->next, new_node);
 
         clock_t end = clock();
-
-        printf("Time spent add node %d at the end %Lfms\n", i+1, (long double)(end - begin) / (CLOCKS_PER_SEC / 1000));    
-
+        time_spent += (double)(end - begin)/(CLOCKS_PER_MILIS);
     }
+
+    printf("Time spent add node at the end %lfms\n", time_spent/MAX);    
     printf("size of linked list: %d\n", headptr->size);
     //print_allnodes(headptr->next);
+
+    // clock_t begin = clock();
+
+    // node * new_node = create_node();
+    // add_node_end(headptr, headptr->next, new_node);
+
+    // clock_t end = clock();
+    // printf("time: %lfms\n", (double)(end - begin)/(CLOCKS_PER_SEC / 1000));
+    // printf("size of linked list: %d\n", headptr->size);
+
     
     return 0;
 }
