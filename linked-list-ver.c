@@ -8,7 +8,7 @@ typedef struct _node
     int student_id;
     char * firstname;
     char * lastname;
-    char middle_init;
+    char * middlename;
     char course[4];
     int year;
     char * email_add;
@@ -97,7 +97,8 @@ void addnodes_from_csv(linlst_studinfo * headptr)
                 strcpy(new_student->firstname, extracted_data);
                 break;
             case 2:
-                new_student->middle_init = extracted_data[0];
+                new_student->middlename = (char *)malloc(strlen(extracted_data) + 1);
+                strcpy(new_student->middlename, extracted_data);
                 break;
             case 3:
                 new_student->lastname = (char *)malloc(strlen(extracted_data) + 1);
