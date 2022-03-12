@@ -72,12 +72,14 @@ void addnodes_from_csv(linlst_studinfo * headptr)
         if(row == 1)
             continue;
 
+        
+
         char * extracted_data = strtok(line, ",");
         node  * new_student = create_node();
 
-        while (extracted_data == NULL)
+        while (extracted_data != NULL)
         {
-            printf("%s\n", extracted_data);
+            //printf("%s\n", extracted_data);
             switch (column)
             {
             case 0:
