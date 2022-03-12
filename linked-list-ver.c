@@ -42,18 +42,25 @@ linlst_studinfo * create_linkedlist_studinfo()
 
 void addnode_studinfo_start(linlst_studinfo * headptr, node * new_node)
 {
+    clock_t begin = clock();
+    
     new_node->next = headptr->next;
     headptr->next = new_node;
-
     headptr->size++;
+
+    clock_t end = clock();
+
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    
+    printf("Added node at %lfms\n", time_spent/1000);
 }
 
-void print_ten_nodes(node * head_node)
+void print_allnodes(node * head_node)
 {
     if(head_node != NULL)
     {
         printf("%d. %s\n", head_node->student_id, head_node->firstname);
-        print_ten_nodes(head_node->next);
+        print_allnodes(head_node->next);
     }
 }
 
@@ -118,25 +125,25 @@ void addnodes_from_csv(linlst_studinfo * headptr)
             column++;
         }
 
-        double time_spent = 0;
-        clock_t begin = clock();
-     
-        addnode_studinfo_start(headptr, new_student);
-        clock_t end = clock();
-
-        time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
-        
-        printf("Added row %d at %lfms\n", row, time_spent/1000);
+        addnode_studinfo_start(headptr, new_student);   
     }
     
 }
 
 int main(int argc, char const *argv[])
 {
+
     linlst_studinfo * headptr = create_linkedlist_studinfo();
+
+    clock_t begin = clock();    
+
     addnodes_from_csv(headptr);
 
-    print_ten_nodes(headptr->next);
+    clock_t end = clock();
+
+    printf("Time spent adding nodes at linked list: %lf \n", (double)(end - begin) / (CLOCKS_PER_SEC / 1000));    
+    print_allnodes(headptr->next);
+    printf("size of linked list: %d\n", headptr->size);
     
     return 0;
 }
