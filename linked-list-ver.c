@@ -420,6 +420,37 @@ int main(int argc, char const *argv[])
             printf("Searched Student:\n");
             print_node(searched_student);
         }
+        else if(choice == 3)
+        {
+            choice = choice_start_mid_end();
+            switch (choice)
+            {
+            case 1:
+                begin = clock();
+                delete_start_node(headptr);
+                end = clock();
+                break;
+            case 2:
+                begin = clock();
+                delete_mid_node(headptr, headptr->next);
+                end = clock();
+                break;
+            case 3:
+                begin = clock();
+                delete_end_node(headptr, headptr->next);
+                end = clock();
+                break;
+            default:
+                break;
+            }
+            printf("Node deleted\n");
+        }
+        else if(choice == 4)
+        {
+            begin = clock();
+            print_allnodes(headptr->next);
+            end = clock();
+        }
         else
             break;
 
