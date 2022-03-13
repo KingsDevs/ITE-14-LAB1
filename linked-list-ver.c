@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include<time.h>
-#include<unistd.h>
+#include<math.h>
 
 #define CLOCKS_PER_MILIS (double)(CLOCKS_PER_SEC/1000)
 #define MAX 2000
@@ -165,7 +165,7 @@ void add_node_end(linlst_studinfo * headptr, node * head, node * new_node)
 
 void add_node_mid(linlst_studinfo * headptr, node * head, node * new_node)
 {
-    int mid = headptr->size / 2;
+    int mid = (int)ceilf((float)headptr->size / 2);
     node * curr_node = head;
 
     for(int i = 1; i <= mid; i++)
@@ -225,6 +225,32 @@ void delete_end_node(linlst_studinfo * headptr, node * head)
         printf("The linked list is empty\n");
 }
 
+void delete_mid_node(linlst_studinfo * headptr, node * head)
+{
+    if(headptr->size > 0)
+    {
+        int mid = (int)ceilf((float)headptr->size / 2);
+        node * curr_node = head;
+
+        for(int i = 1; i < mid; i++)
+        {
+            if(i == mid - 1)
+            {
+                node * next = curr_node->next->next;
+                free(curr_node->next);
+                curr_node->next = next;
+
+                headptr->size--;
+            }
+            else
+                curr_node = curr_node->next;
+        }
+        
+    }
+    else
+        printf("The linked list is empty\n");
+}
+
 int main(int argc, char const *argv[])
 {
 
@@ -258,12 +284,12 @@ int main(int argc, char const *argv[])
 
     // long end = clock();
     // printf("time: %lfms\n", (double)(end - begin)/CLOCKS_PER_MILIS);
-    // printf("size of linked list: %d\n", headptr->size);
 
 
+    printf("size of linked list: %d\n", headptr->size);
     print_allnodes(headptr->next);
 
-    delete_end_node(headptr, headptr->next);
+    delete_mid_node(headptr, headptr->next);
     printf("\n-----------------------------------\n");
     print_allnodes(headptr->next);
 
