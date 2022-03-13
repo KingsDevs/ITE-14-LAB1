@@ -49,14 +49,6 @@ void addnode_start(linlst_studinfo * headptr, node * new_node)
     new_node->next = headptr->next;
     headptr->next = new_node;
     headptr->size++;
-    // clock_t begin = clock();
-    
-
-    // clock_t end = clock();
-
-    // double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    
-    // printf("Added node at %lfms\n", time_spent/1000);
 }
 
 void print_node(node * will_printnode)
@@ -143,8 +135,8 @@ void addnodes_from_csv(linlst_studinfo * headptr)
 
         addnode_start(headptr, new_student);
 
-        if(row == 4)
-            break;   
+        // if(row == 4)
+        //     break;   
     }
     
     fclose(student_info_csv);
@@ -174,6 +166,7 @@ void add_node_mid(linlst_studinfo * headptr, node * head, node * new_node)
         {
             new_node->next = curr_node->next;
             curr_node->next = new_node;
+            headptr->size++;
         }
         else
             curr_node = curr_node->next;
@@ -288,48 +281,154 @@ node * search_node_at_end(node * head)
         search_node_at_end(head->next);
 }
 
+node * input_node()
+{
+    node * newnode = create_node();
+    char line[100];
+
+    printf("Enter Student Id Number: ");
+    scanf(" %d", &newnode->student_id);
+
+    printf("Enter Student Firstname: ");
+    scanf(" %[^\n]", line);
+    newnode->firstname = (char *)malloc(strlen(line) + 1);
+    strcpy(newnode->firstname, line);
+
+    printf("Enter Student Middlename: ");
+    scanf(" %[^\n]", line);
+    newnode->middlename = (char *)malloc(strlen(line) + 1);
+    strcpy(newnode->middlename, line);
+
+    printf("Enter Student Lastname: ");
+    scanf(" %[^\n]", line);
+    newnode->lastname = (char *)malloc(strlen(line) + 1);
+    strcpy(newnode->lastname, line);
+
+    printf("Enter Student Course (4 characters only): ");
+    scanf(" %s", newnode->course);
+
+    printf("Enter Student Year: ");
+    scanf(" %d", &newnode->year);
+
+    printf("Enter Student Email: ");
+    scanf(" %[^\n]", line);
+    newnode->email_add = (char *)malloc(strlen(line) + 1);
+    strcpy(newnode->email_add, line);
+
+    printf("Enter Mobile Number: ");
+    scanf(" %[^\n]", line);
+    newnode->mobile_num = (char *)malloc(strlen(line) + 1);
+    strcpy(newnode->mobile_num, line);
+
+    return newnode;    
+}
+
+int choice_start_mid_end()
+{
+    int choice;
+    printf("1. At Start\n");
+    printf("2. At Mid\n");
+    printf("3. At End\n");
+    printf(">> ");
+    scanf(" %d", &choice);
+
+    return choice;
+}
+
+void wait()
+{
+    printf("\nPlease press ENTER to continue");
+    fflush(stdin);
+    getchar();
+}
 
 int main(int argc, char const *argv[])
 {
 
     linlst_studinfo * headptr = create_linkedlist_studinfo();
     addnodes_from_csv(headptr);
-    // double time_spent = 0.0;
 
-    // for(int i = 0; i < MAX; i++)
-    // {
+    clock_t begin, end;
     
-    //     long begin = clock();
-
-    //     node * new_node = create_node();
-    //     add_node_end(headptr, headptr->next, new_node);
+    while (1)
+    {
+        printf("size of linked list: %d\n", headptr->size);
         
-    //     long end = clock();
-    //     time_spent += (double)(end - begin)/(CLOCKS_PER_MILIS);
+        int choice;
+        printf("1. Insert Student\n");
+        printf("2. Search Student\n");
+        printf("3. Delete Student\n");
+        printf("4. Print All Students\n");
+        printf("5. Exit\n");
+        printf(">> ");
+        scanf(" %d", &choice);
 
+        if(choice == 1)
+        {
+            node * new_student = input_node();
+            choice = choice_start_mid_end();
+
+            switch (choice)
+            {
+            case 1:
+                begin = clock();
+                addnode_start(headptr, new_student);
+                end = clock();
+                printf("Node added at the front\n");
+                break;
+            case 2:
+                begin = clock();
+                add_node_mid(headptr, headptr->next, new_student);
+                end = clock();
+                printf("Node added at the mid\n");
+                break;
+            case 3:
+                begin = clock();
+                add_node_end(headptr, headptr->next, new_student);
+                end = clock();
+                printf("Node added at the end\n");
+                break;
+            default:
+                break;
+            }
+
+        }
+        else if(choice == 2)
+        {
+            int choice = choice_start_mid_end();
+            node * searched_student;
+            switch (choice)
+            {
+            case 1:
+                begin = clock();
+                searched_student = search_node_at_start(headptr);
+                end = clock();
+                break;
+            case 2:
+                begin = clock();
+                searched_student = search_node_at_mid(headptr);
+                end = clock();
+                break;
+            case 3:
+                begin = clock();
+                searched_student = search_node_at_end(headptr->next);
+                end = clock();
+                break;
+            default:
+                break;
+            }
+            printf("Searched Student:\n");
+            print_node(searched_student);
+        }
+        else
+            break;
+
+        printf("Runtime: %lfms\n", (double)(end - begin) / CLOCKS_PER_MILIS);
+        wait();
+    }
     
-    // }
-
-    // printf("Time spent add node at the end %lfms\n", time_spent/MAX);    
-    // printf("size of linked list: %d\n", headptr->size);
-
-    //print_allnodes(headptr->next);
-
-    // long begin = clock();
-
-    // node * new_node = create_node();
-    // add_node_end(headptr, headptr->next, new_node);
-
-    // long end = clock();
-    // printf("time: %lfms\n", (double)(end - begin)/CLOCKS_PER_MILIS);
 
 
-    printf("size of linked list: %d\n", headptr->size);
-    print_allnodes(headptr->next);
-
-    printf("\n-----------------------------------\n");
-    node * searched_node = search_node_at_end(headptr->next);
-    print_node(searched_node);
 
     return 0;
 }
