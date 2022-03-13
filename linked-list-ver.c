@@ -251,6 +251,44 @@ void delete_mid_node(linlst_studinfo * headptr, node * head)
         printf("The linked list is empty\n");
 }
 
+node * search_node_at_start(linlst_studinfo * headptr)
+{
+    return headptr->next;
+}
+
+node * search_node_at_mid(linlst_studinfo * headptr)
+{
+    if(headptr->size > 0)
+    {
+        int mid = (int)ceilf((float)headptr->size / 2);
+        node * curr_node = headptr->next;
+
+        for (int i = 1; i <= mid; i++)
+        {
+            if (i == mid)
+            {
+                return curr_node;
+            }
+            else
+                curr_node = curr_node->next;
+        }
+        
+    }
+    else
+        printf("The linked list is empty\n");
+}
+
+node * search_node_at_end(node * head)
+{
+    if(head->next == NULL)
+    {
+        return head;
+    }
+    else
+        search_node_at_end(head->next);
+}
+
+
 int main(int argc, char const *argv[])
 {
 
@@ -289,9 +327,9 @@ int main(int argc, char const *argv[])
     printf("size of linked list: %d\n", headptr->size);
     print_allnodes(headptr->next);
 
-    delete_mid_node(headptr, headptr->next);
     printf("\n-----------------------------------\n");
-    print_allnodes(headptr->next);
+    node * searched_node = search_node_at_end(headptr->next);
+    print_node(searched_node);
 
     return 0;
 }
