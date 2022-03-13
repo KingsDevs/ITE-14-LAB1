@@ -2,8 +2,9 @@
 #include<stdlib.h>
 #include<string.h>
 #include<time.h>
+#include<unistd.h>
 
-#define CLOCKS_PER_MILIS (CLOCKS_PER_SEC / 1000)
+#define CLOCKS_PER_MILIS (double)(CLOCKS_PER_SEC/1000)
 #define MAX 2000
 
 typedef struct _node
@@ -43,7 +44,7 @@ linlst_studinfo * create_linkedlist_studinfo()
     return headptr;
 }
 
-void addnode_studinfo_start(linlst_studinfo * headptr, node * new_node)
+void addnode_start(linlst_studinfo * headptr, node * new_node)
 {
     new_node->next = headptr->next;
     headptr->next = new_node;
@@ -140,9 +141,13 @@ void addnodes_from_csv(linlst_studinfo * headptr)
             column++;
         }
 
-        addnode_studinfo_start(headptr, new_student);   
+        addnode_start(headptr, new_student);
+
+        if(row == 4)
+            break;   
     }
     
+    fclose(student_info_csv);
 }
 
 void add_node_end(linlst_studinfo * headptr, node * head, node * new_node)
@@ -158,40 +163,110 @@ void add_node_end(linlst_studinfo * headptr, node * head, node * new_node)
     }
 }
 
+void add_node_mid(linlst_studinfo * headptr, node * head, node * new_node)
+{
+    int mid = headptr->size / 2;
+    node * curr_node = head;
+
+    for(int i = 1; i <= mid; i++)
+    {
+        if(i == mid)
+        {
+            new_node->next = curr_node->next;
+            curr_node->next = new_node;
+        }
+        else
+            curr_node = curr_node->next;
+    }
+}
+
+void delete_start_node(linlst_studinfo * headptr)
+{
+    if(headptr->size > 0)
+    {
+        node * head = headptr->next;
+        node * new_head = head->next;
+
+        headptr->next = new_head;
+
+        free(head);
+        head = NULL;
+
+        headptr->size--;
+    }
+    else
+        printf("The linked list is empty\n");
+}
+
+void delete_end_node(linlst_studinfo * headptr, node * head)
+{
+    if(headptr->size > 0)
+    {
+        node * curr_node = head;
+        node * before_node = head;
+
+        while (1)
+        {
+            if(curr_node-> next->next == NULL)
+            {
+                free(curr_node->next);
+                curr_node->next = NULL;
+            
+                headptr->size--;
+                break;
+            }
+            
+            curr_node = curr_node->next;
+
+        }
+        
+    }
+    else
+        printf("The linked list is empty\n");
+}
+
 int main(int argc, char const *argv[])
 {
 
     linlst_studinfo * headptr = create_linkedlist_studinfo();
     addnodes_from_csv(headptr);
+    // double time_spent = 0.0;
 
-    double time_spent = 0.0;
+    // for(int i = 0; i < MAX; i++)
+    // {
+    
+    //     long begin = clock();
 
-    for(int i = 0; i < MAX; i++)
-    {
+    //     node * new_node = create_node();
+    //     add_node_end(headptr, headptr->next, new_node);
         
-        clock_t begin = clock();
+    //     long end = clock();
+    //     time_spent += (double)(end - begin)/(CLOCKS_PER_MILIS);
 
-        node * new_node = create_node();
-        add_node_end(headptr, headptr->next, new_node);
+    
+    // }
 
-        clock_t end = clock();
-        time_spent += (double)(end - begin)/(CLOCKS_PER_MILIS);
-    }
+    // printf("Time spent add node at the end %lfms\n", time_spent/MAX);    
+    // printf("size of linked list: %d\n", headptr->size);
 
-    printf("Time spent add node at the end %lfms\n", time_spent/MAX);    
-    printf("size of linked list: %d\n", headptr->size);
     //print_allnodes(headptr->next);
 
-    // clock_t begin = clock();
+    // long begin = clock();
 
     // node * new_node = create_node();
     // add_node_end(headptr, headptr->next, new_node);
 
-    // clock_t end = clock();
-    // printf("time: %lfms\n", (double)(end - begin)/(CLOCKS_PER_SEC / 1000));
+    // long end = clock();
+    // printf("time: %lfms\n", (double)(end - begin)/CLOCKS_PER_MILIS);
     // printf("size of linked list: %d\n", headptr->size);
 
-    
+
+    print_allnodes(headptr->next);
+
+    delete_end_node(headptr, headptr->next);
+    printf("\n-----------------------------------\n");
+    print_allnodes(headptr->next);
+
     return 0;
 }
 
