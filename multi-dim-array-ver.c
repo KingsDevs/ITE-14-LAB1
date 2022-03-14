@@ -155,7 +155,10 @@ void add_students_from_csv(students * studs)
 
 void print_student(char * stud)
 {
-    char * extracted_data = strtok(stud, ",");
+    char temp[1024];
+    strcpy(temp, stud);
+
+    char * extracted_data = strtok(temp, ",");
     int column = 0;
     while (extracted_data != NULL)
     {
@@ -165,10 +168,10 @@ void print_student(char * stud)
             printf("Student ID: %d\n", atoi(extracted_data));
             break;
         case 1:
-            printf("Fullname: %s, ", extracted_data);
+            printf("Fullname: %s ", extracted_data);
             break;
         case 2:
-            printf("%s, ", extracted_data);
+            printf("%s ", extracted_data);
             break;
         case 3:
             printf("%s\n", extracted_data);
@@ -188,7 +191,7 @@ void print_student(char * stud)
         default:
             break;
         }
-        
+
         extracted_data = strtok(NULL, ",");
         column++;
     }
@@ -208,7 +211,7 @@ char * search_student_start(students * studs)
 {
     if(studs->size > 0)
         return studs->student_arr[0];
-    
+
     printf("Empty!\n");
     return NULL;
 }
