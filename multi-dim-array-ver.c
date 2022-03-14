@@ -3,7 +3,6 @@
 #include<stdlib.h>
 #include<math.h>
 #include<sys/time.h>
-#include<unistd.h>
 
 typedef struct _students
 {
@@ -304,7 +303,7 @@ int main(int argc, char const *argv[])
 {
     students * studs = create_new_studarr();
 
-    for(int i = 0; i < 100; i++)
+    for(int i = 0; i < 150; i++)
         add_students_from_csv(studs);
     
 

@@ -346,7 +346,7 @@ int main(int argc, char const *argv[])
 {
 
     linlst_studinfo * headptr = create_linkedlist_studinfo();
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 150; i++)
     {
         addnodes_from_csv(headptr);
     }
@@ -375,8 +375,6 @@ int main(int argc, char const *argv[])
             {
             case 1:
                 gettimeofday(&st, NULL);
-            
-
                 addnode_start(headptr, new_student);
                 gettimeofday(&et, NULL);
                 printf("Node added at the front\n");
