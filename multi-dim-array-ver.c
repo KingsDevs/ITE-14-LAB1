@@ -43,11 +43,13 @@ void add_student_start(students * studs, char * new_student)
         int new_size = studs->size + 1;
         studs->student_arr = (char **)realloc(studs->student_arr, new_size * sizeof(char *));
 
-        for(int i = studs->size; i >= 0; i--)
+        for(int i = studs->size - 1; i >= 0; i--)
         {
             // studs->student_arr[i + 1] = studs->student_arr[i];
-            studs->student_arr[i + 1] = (char *)malloc(strlen(studs->student_arr[i]) + 1);
+            studs->student_arr[i+1] = (char *)malloc(strlen(studs->student_arr[i]) + 1);
+            strcpy(studs->student_arr[i+1], studs->student_arr[i]);
             free(studs->student_arr[i]);
+            
         }
 
         studs->student_arr[0] = (char *)malloc(strlen(new_student) + 1);
@@ -104,10 +106,9 @@ int main(int argc, char const *argv[])
     
     printf("-----------------------------\n");
 
-    char * add = "dfsfsd";
-    char * add2 = "jou";
-    add_student_start(studs, add);
-    add_student_start(studs, add2);
+    
+    add_student_start(studs, "add");
+    
     printf("Array Size: %d\n", studs->size);
     
     print_students(studs);
