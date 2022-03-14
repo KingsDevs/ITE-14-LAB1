@@ -34,6 +34,29 @@ void add_student_end(students * studs, char * new_student)
     }
 }
 
+void add_student_start(students * studs, char * new_student)
+{
+    if(studs->size == 0)
+        add_student_end(studs, new_student);
+    else
+    {
+        int new_size = studs->size + 1;
+        studs->student_arr = (char **)realloc(studs->student_arr, new_size * sizeof(char *));
+
+        for(int i = studs->size; i >= 0; i--)
+        {
+            // studs->student_arr[i + 1] = studs->student_arr[i];
+            studs->student_arr[i + 1] = (char *)malloc(strlen(studs->student_arr[i]) + 1);
+            free(studs->student_arr[i]);
+        }
+
+        studs->student_arr[0] = (char *)malloc(strlen(new_student) + 1);
+        strcpy(studs->student_arr[0], new_student);
+
+        studs->size = new_size;
+    }
+}
+
 void add_students_from_csv(students * studs)
 {
     FILE * student_info_csv = fopen("student-info.csv", "r");
@@ -49,8 +72,12 @@ void add_students_from_csv(students * studs)
 
         if(row == 1)
             continue;
-        
+
+        line[strlen(line) - 1] = '\0';
         add_student_end(studs, line);
+
+        if(row == 5)
+            break;
     }
     
 
@@ -61,7 +88,7 @@ void print_students(students * studs)
 {
     for (int i = 0; i < studs->size; i++)
     {
-        printf("%s", studs->student_arr[i]);
+        printf("%s\n", studs->student_arr[i]);
     }
     
 }
@@ -75,5 +102,14 @@ int main(int argc, char const *argv[])
     printf("Array Size: %d\n", studs->size);
     print_students(studs);
     
+    printf("-----------------------------\n");
+
+    char * add = "dfsfsd";
+    char * add2 = "jou";
+    add_student_start(studs, add);
+    add_student_start(studs, add2);
+    printf("Array Size: %d\n", studs->size);
+    
+    print_students(studs);
     return 0;
 }
