@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
+#include<math.h>
 
 typedef struct _students
 {
@@ -34,28 +35,44 @@ void add_student_end(students * studs, char * new_student)
     }
 }
 
+void add_student(students * studs, int pos, char * new_student)
+{
+    int new_size = studs->size + 1;
+    studs->student_arr = (char **)realloc(studs->student_arr, new_size * sizeof(char *));
+
+    for(int i = studs->size - 1; i >= pos; i--)
+    {
+        // studs->student_arr[i + 1] = studs->student_arr[i];
+        studs->student_arr[i+1] = (char *)malloc(strlen(studs->student_arr[i]) + 1);
+        strcpy(studs->student_arr[i+1], studs->student_arr[i]);
+        free(studs->student_arr[i]);
+        
+    }
+
+    studs->student_arr[pos] = (char *)malloc(strlen(new_student) + 1);
+    strcpy(studs->student_arr[pos], new_student);
+
+    studs->size = new_size;
+}
+
 void add_student_start(students * studs, char * new_student)
 {
     if(studs->size == 0)
         add_student_end(studs, new_student);
     else
     {
-        int new_size = studs->size + 1;
-        studs->student_arr = (char **)realloc(studs->student_arr, new_size * sizeof(char *));
+        add_student(studs, 0, new_student);
+    }
+}
 
-        for(int i = studs->size - 1; i >= 0; i--)
-        {
-            // studs->student_arr[i + 1] = studs->student_arr[i];
-            studs->student_arr[i+1] = (char *)malloc(strlen(studs->student_arr[i]) + 1);
-            strcpy(studs->student_arr[i+1], studs->student_arr[i]);
-            free(studs->student_arr[i]);
-            
-        }
-
-        studs->student_arr[0] = (char *)malloc(strlen(new_student) + 1);
-        strcpy(studs->student_arr[0], new_student);
-
-        studs->size = new_size;
+void add_student_mid(students * studs, char * new_student)
+{
+    if(studs->size == 0)
+        add_student_end(studs, new_student);
+    else
+    {
+        int mid = (int)ceilf((float)studs->size / 2);
+        add_student(studs, mid - 1, new_student);
     }
 }
 
@@ -108,6 +125,7 @@ int main(int argc, char const *argv[])
 
     
     add_student_start(studs, "add");
+    add_student_mid(studs, "mid");
     
     printf("Array Size: %d\n", studs->size);
     
