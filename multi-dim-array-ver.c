@@ -76,6 +76,45 @@ void add_student_mid(students * studs, char * new_student)
     }
 }
 
+void delete_student(students * studs, int pos)
+{
+    free(studs->student_arr[pos]);
+    for(int i = 0; i < studs->size - 1; i++)
+    {
+        studs->student_arr[i] = studs->student_arr[i + 1];
+    }
+
+    int new_size = studs->size - 1;
+    studs->student_arr = (char **)realloc(studs->student_arr, sizeof(char *) * new_size);
+
+    studs->size = new_size;
+}
+
+void delete_student_end(students * studs)
+{
+    if(studs->size > 0)
+    {
+        free(studs->student_arr[studs->size - 1]);
+        int new_size = studs->size - 1;
+        studs->student_arr = (char **)realloc(studs->student_arr, sizeof(char *) * new_size);
+
+        studs->size = new_size;
+    }
+    else
+        printf("Empty!\n");
+}
+
+void delete_student_start(students * studs)
+{
+    if(studs->size > 0)
+    {
+        delete_student(studs, 0);
+    }
+    else
+        printf("Empty!\n");
+}
+
+
 void add_students_from_csv(students * studs)
 {
     FILE * student_info_csv = fopen("student-info.csv", "r");
@@ -124,8 +163,7 @@ int main(int argc, char const *argv[])
     printf("-----------------------------\n");
 
     
-    add_student_start(studs, "add");
-    add_student_mid(studs, "mid");
+    delete_student_start(studs);
     
     printf("Array Size: %d\n", studs->size);
     
