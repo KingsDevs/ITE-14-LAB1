@@ -2,6 +2,7 @@
 #include<string.h>
 #include<stdlib.h>
 #include<math.h>
+#include<sys/time.h>
 
 typedef struct _students
 {
@@ -43,10 +44,6 @@ void add_student(students * studs, int pos, char * new_student)
     for(int i = studs->size - 1; i >= pos; i--)
     {
         studs->student_arr[i + 1] = studs->student_arr[i];
-        // studs->student_arr[i+1] = (char *)malloc(strlen(studs->student_arr[i]) + 1);
-        // strcpy(studs->student_arr[i+1], studs->student_arr[i]);
-        // free(studs->student_arr[i]);
-        
     }
 
     studs->student_arr[pos] = (char *)malloc(strlen(new_student) + 1);
@@ -237,20 +234,128 @@ char * search_student_end(students * studs)
     return NULL;
 }
 
+char * input_student()
+{
+    char input_str[1024];
+
+    int id;
+    char firstname[30];
+    char middlename[30];
+    char lastname[30];
+    char course[5];
+    int year;
+    char email[30];
+    char contact_number[30];
+
+
+    printf("Enter Student Id Number: ");
+    scanf(" %d", &id);
+
+    printf("Enter Student Firstname: ");
+    scanf(" %[^\n]", firstname);
+
+    printf("Enter Student Middlename: ");
+    scanf(" %[^\n]", middlename);
+
+    printf("Enter Student Lastname: ");
+    scanf(" %[^\n]", lastname);
+
+    printf("Enter Student Course (4 characters only): ");
+    scanf(" %s", course);
+
+    printf("Enter Student Year: ");
+    scanf(" %d", &year);
+
+    printf("Enter Student Email: ");
+    scanf(" %[^\n]", email);;
+
+    printf("Enter Mobile Number: ");
+    scanf(" %[^\n]", contact_number);
+
+    sprintf(input_str, "%d,%s,%s,%s,%s,%d,%s,%s", id, firstname, middlename, lastname, course, year, email, contact_number);
+ 
+    char * new_student = (char *)malloc(strlen(input_str));
+    strcpy(new_student, input_str);
+
+    return new_student;
+}
+
+int choice_start_mid_end()
+{
+    int choice;
+    printf("1. At Start\n");
+    printf("2. At Mid\n");
+    printf("3. At End\n");
+    printf(">> ");
+    scanf(" %d", &choice);
+
+    return choice;
+}
+
+void wait()
+{
+    printf("\nPlease press ENTER to continue");
+    fflush(stdin);
+    getchar();
+}
 
 int main(int argc, char const *argv[])
 {
     students * studs = create_new_studarr();
     add_students_from_csv(studs);
 
-    printf("Array Size: %d\n", studs->size);
-    print_all_students(studs);
-    
-    printf("-----------------------------\n");
+    struct timeval st, et;
+    while(1)
+    {
+        printf("Array Size: %d\n", studs->size);
 
-    
-    char * searched = search_student_end(studs);
-    print_student(searched);
+        int choice;
+        printf("1. Insert Student\n");
+        printf("2. Search Student\n");
+        printf("3. Delete Student\n");
+        printf("4. Print All Student\n");
+        printf(">> ");
+
+        scanf(" %d", &choice);
+
+        if(choice == 1)
+        {
+            char * new_student = input_student();
+            choice = choice_start_mid_end();
+
+            switch (choice)
+            {
+            case 1:
+                gettimeofday(&st, NULL);
+                add_student_start(studs, new_student);
+                gettimeofday(&et, NULL);
+                printf("Student added at the front\n");
+                break;
+            case 2:
+                gettimeofday(&st, NULL);
+                add_student_mid(studs, new_student);
+                gettimeofday(&et, NULL);
+                printf("Student added at the mid\n");
+                break;
+            case 3:
+                gettimeofday(&st, NULL);
+                add_student_end(studs, new_student);
+                gettimeofday(&et, NULL);
+                printf("Student added at the end\n");
+                break;
+            default:
+                break;
+            }
+        }
+        else
+            break;
+
+        int elapsed = ((et.tv_sec - st.tv_sec) * 1000000) + (et.tv_usec - st.tv_usec);
+        printf("Runtime: %d microseconds\n", elapsed);
+        
+        wait();
+    }
+
 
     return 0;
 }
