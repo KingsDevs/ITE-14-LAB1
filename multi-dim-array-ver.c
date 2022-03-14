@@ -79,7 +79,7 @@ void add_student_mid(students * studs, char * new_student)
 void delete_student(students * studs, int pos)
 {
     free(studs->student_arr[pos]);
-    for(int i = 0; i < studs->size - 1; i++)
+    for(int i = pos; i < studs->size - 1; i++)
     {
         studs->student_arr[i] = studs->student_arr[i + 1];
     }
@@ -109,6 +109,17 @@ void delete_student_start(students * studs)
     if(studs->size > 0)
     {
         delete_student(studs, 0);
+    }
+    else
+        printf("Empty!\n");
+}
+
+void delete_student_mid(students * studs)
+{
+    if(studs->size > 0)
+    {
+        int mid = (int)ceilf((float)studs->size / 2);
+        delete_student(studs, mid - 1);
     }
     else
         printf("Empty!\n");
@@ -163,7 +174,7 @@ int main(int argc, char const *argv[])
     printf("-----------------------------\n");
 
     
-    delete_student_start(studs);
+    delete_student_mid(studs);
     
     printf("Array Size: %d\n", studs->size);
     
