@@ -2,10 +2,13 @@
 #include<stdlib.h>
 #include<string.h>
 #include<sys/time.h>
+#include<bits/stdc++.h>
 #include<math.h>
 
 #define CLOCKS_PER_MILIS (double)(CLOCKS_PER_SEC/1000)
 #define MAX 2000
+
+using namespace std;
 
 typedef struct _node
 {
@@ -380,20 +383,21 @@ int main(int argc, char const *argv[])
             {
             case 1:
                 gettimeofday(&st, NULL);
-            
-
+                ios_base :: sync_with_stdio(false);
                 addnode_start(headptr, new_student);
                 gettimeofday(&et, NULL);
                 printf("Node added at the front\n");
                 break;
             case 2:
                 gettimeofday(&st, NULL);
+                ios_base :: sync_with_stdio(false);
                 add_node_mid(headptr, headptr->next, new_student);
                 gettimeofday(&et, NULL);
                 printf("Node added at the mid\n");
                 break;
             case 3:
                 gettimeofday(&st, NULL);
+                ios_base :: sync_with_stdio(false);
                 add_node_end(headptr, headptr->next, new_student);
                 gettimeofday(&et, NULL);
                 printf("Node added at the end\n");
@@ -411,16 +415,19 @@ int main(int argc, char const *argv[])
             {
             case 1:
                 gettimeofday(&st, NULL);
+                ios_base :: sync_with_stdio(false);
                 searched_student = search_node_at_start(headptr);
                 gettimeofday(&et, NULL);
                 break;
             case 2:
                 gettimeofday(&st, NULL);
+                ios_base :: sync_with_stdio(false);
                 searched_student = search_node_at_mid(headptr);
                 gettimeofday(&et, NULL);
                 break;
             case 3:
                 gettimeofday(&st, NULL);
+                ios_base :: sync_with_stdio(false);
                 searched_student = search_node_at_end(headptr->next);
                 gettimeofday(&et, NULL);
                 break;
@@ -437,16 +444,19 @@ int main(int argc, char const *argv[])
             {
             case 1:
                 gettimeofday(&st, NULL);
+                ios_base :: sync_with_stdio(false);
                 delete_start_node(headptr);
                 gettimeofday(&et, NULL);
                 break;
             case 2:
                 gettimeofday(&st, NULL);
+                ios_base :: sync_with_stdio(false);
                 delete_mid_node(headptr, headptr->next);
                 gettimeofday(&et, NULL);
                 break;
             case 3:
                 gettimeofday(&st, NULL);
+                ios_base :: sync_with_stdio(false);
                 delete_end_node(headptr, headptr->next);
                 gettimeofday(&et, NULL);
                 break;
@@ -458,14 +468,17 @@ int main(int argc, char const *argv[])
         else if(choice == 4)
         {
             gettimeofday(&st, NULL);
+            ios_base :: sync_with_stdio(false);
             print_allnodes(headptr->next);
             gettimeofday(&et, NULL);
         }
         else
             break;
         
-        int elapsed = ((et.tv_sec - st.tv_sec) * 1000000) + (et.tv_usec - st.tv_usec);
-        printf("Runtime: %d microseconds\n", elapsed);
+        double elapsed = ((et.tv_sec - st.tv_sec) * 1e6 ) + ((et.tv_usec - st.tv_usec) * 1e-6 );
+        cout << "Run Time: " << fixed << elapsed * 1000 << setprecision(6); 
+        cout << "ms" << endl;
+
         wait();
     }
     
