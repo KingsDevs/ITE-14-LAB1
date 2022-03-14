@@ -42,10 +42,10 @@ void add_student(students * studs, int pos, char * new_student)
 
     for(int i = studs->size - 1; i >= pos; i--)
     {
-        // studs->student_arr[i + 1] = studs->student_arr[i];
-        studs->student_arr[i+1] = (char *)malloc(strlen(studs->student_arr[i]) + 1);
-        strcpy(studs->student_arr[i+1], studs->student_arr[i]);
-        free(studs->student_arr[i]);
+        studs->student_arr[i + 1] = studs->student_arr[i];
+        // studs->student_arr[i+1] = (char *)malloc(strlen(studs->student_arr[i]) + 1);
+        // strcpy(studs->student_arr[i+1], studs->student_arr[i]);
+        // free(studs->student_arr[i]);
         
     }
 
