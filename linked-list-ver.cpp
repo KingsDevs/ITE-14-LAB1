@@ -476,7 +476,7 @@ int main(int argc, char const *argv[])
             break;
         
         double elapsed = ((et.tv_sec - st.tv_sec) * 1e6 ) + ((et.tv_usec - st.tv_usec) * 1e-6 );
-        cout << "Run Time: " << fixed << elapsed * 1000 << setprecision(6); 
+        cout << "Run Time: " << fixed << elapsed * 1000 << setprecision(9); 
         cout << "ms" << endl;
 
         wait();
