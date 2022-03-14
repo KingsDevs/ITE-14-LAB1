@@ -4,9 +4,6 @@
 #include<sys/time.h>
 #include<math.h>
 
-#define CLOCKS_PER_MILIS (double)(CLOCKS_PER_SEC/1000)
-#define MAX 2000
-
 typedef struct _node
 {
     int student_id;
@@ -354,8 +351,6 @@ int main(int argc, char const *argv[])
         addnodes_from_csv(headptr);
     }
     
-
-    // clock_t begin, end;
     struct timeval st, et;    
 
     while (1)
@@ -464,8 +459,8 @@ int main(int argc, char const *argv[])
         else
             break;
         
-        int elapsed = ((et.tv_sec - st.tv_sec) * 1000000) + (et.tv_usec - st.tv_usec);
-        printf("Runtime: %d microseconds\n", elapsed);
+        double elapsed = ((et.tv_sec - st.tv_sec) * 1000000) + ((et.tv_usec - st.tv_usec) * 0.000001);
+        printf("Runtime: %lf ms\n", elapsed / 1000);
         wait();
     }
     

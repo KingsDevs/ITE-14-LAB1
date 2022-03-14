@@ -3,6 +3,7 @@
 #include<stdlib.h>
 #include<math.h>
 #include<sys/time.h>
+#include<unistd.h>
 
 typedef struct _students
 {
@@ -302,7 +303,10 @@ void wait()
 int main(int argc, char const *argv[])
 {
     students * studs = create_new_studarr();
-    add_students_from_csv(studs);
+
+    for(int i = 0; i < 100; i++)
+        add_students_from_csv(studs);
+    
 
     struct timeval st, et;
     while(1)
@@ -410,12 +414,11 @@ int main(int argc, char const *argv[])
         else
             break;
 
-        int elapsed = ((et.tv_sec - st.tv_sec) * 1000000) + (et.tv_usec - st.tv_usec);
-        printf("Runtime: %d microseconds\n", elapsed);
+        double elapsed = ((et.tv_sec - st.tv_sec) * 1000000) + ((et.tv_usec - st.tv_usec) * 0.000001);
+        printf("Runtime: %lf ms\n", elapsed / 1000);
         
         wait();
     }
-
-
+    
     return 0;
 }
