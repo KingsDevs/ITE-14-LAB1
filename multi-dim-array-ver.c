@@ -313,7 +313,8 @@ int main(int argc, char const *argv[])
         printf("1. Insert Student\n");
         printf("2. Search Student\n");
         printf("3. Delete Student\n");
-        printf("4. Print All Student\n");
+        printf("4. Print All Students\n");
+        printf("5. Exit\n");
         printf(">> ");
 
         scanf(" %d", &choice);
@@ -374,6 +375,37 @@ int main(int argc, char const *argv[])
             }
             printf("Searched Student:\n");
             print_student(searched_student);
+        }
+        else if(choice == 3)
+        {
+            choice = choice_start_mid_end();
+            switch (choice)
+            {
+            case 1:
+                gettimeofday(&st, NULL);
+                delete_student_start(studs);
+                gettimeofday(&et, NULL);
+                break;
+            case 2:
+                gettimeofday(&st, NULL);
+                delete_student_mid(studs);
+                gettimeofday(&et, NULL);
+                break;
+            case 3:
+                gettimeofday(&st, NULL);
+                delete_student_end(studs);
+                gettimeofday(&et, NULL);
+                break;
+            default:
+                break;
+            }
+            printf("Student deleted\n");
+        }
+        else if(choice == 4)
+        {
+            gettimeofday(&st, NULL);
+            print_all_students(studs);
+            gettimeofday(&et, NULL);
         }
         else
             break;
