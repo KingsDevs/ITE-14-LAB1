@@ -153,13 +153,85 @@ void add_students_from_csv(students * studs)
     fclose(student_info_csv);
 }
 
-void print_students(students * studs)
+void print_student(char * stud)
+{
+    char * extracted_data = strtok(stud, ",");
+    int column = 0;
+    while (extracted_data != NULL)
+    {
+        switch (column)
+        {
+        case 0:
+            printf("Student ID: %d\n", atoi(extracted_data));
+            break;
+        case 1:
+            printf("Fullname: %s, ", extracted_data);
+            break;
+        case 2:
+            printf("%s, ", extracted_data);
+            break;
+        case 3:
+            printf("%s\n", extracted_data);
+            break;
+        case 4:
+            printf("Course and Year: %s - ", extracted_data);
+            break;
+        case 5:
+            printf("%d\n", atoi(extracted_data));
+            break;
+        case 6:
+            printf("Email: %s\n", extracted_data);
+            break;
+        case 7:
+            printf("Mobile Number: %s\n", extracted_data);
+            break;
+        default:
+            break;
+        }
+        
+        extracted_data = strtok(NULL, ",");
+        column++;
+    }
+}
+
+void print_all_students(students * studs)
 {
     for (int i = 0; i < studs->size; i++)
     {
-        printf("%s\n", studs->student_arr[i]);
+        print_student(studs->student_arr[i]);
+        printf("\n");
     }
     
+}
+
+char * search_student_start(students * studs)
+{
+    if(studs->size > 0)
+        return studs->student_arr[0];
+    
+    printf("Empty!\n");
+    return NULL;
+}
+
+char * search_student_mid(students * studs)
+{
+    if(studs->size > 0)
+    {
+        int mid = (int)ceilf((float)studs->size / 2);
+        return studs->student_arr[mid - 1];
+    }
+    printf("Empty!\n");
+    return NULL;
+}
+
+char * search_student_end(students * studs)
+{
+    if(studs->size > 0)
+    {
+        return studs->student_arr[studs->size - 1];
+    }
+    printf("Empty!\n");
+    return NULL;
 }
 
 
@@ -169,15 +241,13 @@ int main(int argc, char const *argv[])
     add_students_from_csv(studs);
 
     printf("Array Size: %d\n", studs->size);
-    print_students(studs);
+    print_all_students(studs);
     
     printf("-----------------------------\n");
 
     
-    delete_student_mid(studs);
-    
-    printf("Array Size: %d\n", studs->size);
-    
-    print_students(studs);
+    char * searched = search_student_start(studs);
+    print_student(searched);
+
     return 0;
 }
