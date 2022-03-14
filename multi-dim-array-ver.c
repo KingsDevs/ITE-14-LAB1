@@ -145,8 +145,8 @@ void add_students_from_csv(students * studs)
         line[strlen(line) - 1] = '\0';
         add_student_end(studs, line);
 
-        if(row == 5)
-            break;
+        // if(row == 5)
+        //     break;
     }
     
 
@@ -249,7 +249,7 @@ int main(int argc, char const *argv[])
     printf("-----------------------------\n");
 
     
-    char * searched = search_student_start(studs);
+    char * searched = search_student_end(studs);
     print_student(searched);
 
     return 0;
