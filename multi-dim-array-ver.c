@@ -347,6 +347,34 @@ int main(int argc, char const *argv[])
                 break;
             }
         }
+        else if(choice == 2)
+        {
+            int choice = choice_start_mid_end();
+            char * searched_student;
+
+            switch (choice)
+            {
+            case 1:
+                gettimeofday(&st, NULL);
+                searched_student = search_student_start(studs);
+                gettimeofday(&et, NULL);
+                break;
+            case 2:
+                gettimeofday(&st, NULL);
+                searched_student = search_student_mid(studs);
+                gettimeofday(&et, NULL);
+                break;
+            case 3:
+                gettimeofday(&st, NULL);
+                searched_student = search_student_end(studs);
+                gettimeofday(&et, NULL);
+                break;
+            default:
+                break;
+            }
+            printf("Searched Student:\n");
+            print_student(searched_student);
+        }
         else
             break;
 
