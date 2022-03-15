@@ -346,7 +346,7 @@ int main(int argc, char const *argv[])
 {
 
     linlst_studinfo * headptr = create_linkedlist_studinfo();
-    for (int i = 0; i < 150; i++)
+    for (int i = 0; i < 220; i++)
     {
         addnodes_from_csv(headptr);
     }
@@ -458,7 +458,7 @@ int main(int argc, char const *argv[])
             break;
         
         double elapsed = ((et.tv_sec - st.tv_sec) * 1000000) + ((et.tv_usec - st.tv_usec) * 0.000001);
-        printf("Runtime: %lf ms\n", elapsed / 1000);
+        printf("Runtime: %lf microseconds\n", elapsed);
         wait();
     }
     

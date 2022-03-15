@@ -303,7 +303,7 @@ int main(int argc, char const *argv[])
 {
     students * studs = create_new_studarr();
 
-    for(int i = 0; i < 150; i++)
+    for(int i = 0; i < 220; i++)
         add_students_from_csv(studs);
     
 
@@ -414,7 +414,7 @@ int main(int argc, char const *argv[])
             break;
 
         double elapsed = ((et.tv_sec - st.tv_sec) * 1000000) + ((et.tv_usec - st.tv_usec) * 0.000001);
-        printf("Runtime: %lf ms\n", elapsed / 1000);
+        printf("Runtime: %lf microseconds\n", elapsed);
         
         wait();
     }
